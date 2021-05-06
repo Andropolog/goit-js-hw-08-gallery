@@ -35,21 +35,28 @@ function handleGalleryClick(event) {
     modalRef(event.target);
 }
 
+const setImage = (src = "", alt = "") => {
+    refs.largeImage.src = src;
+    refs.largeImage.alt = alt;
+}
+const onKeyDown = event => {
+    if (event.code === 'Escape') {
+        closeModalRef();
+    };
+}
+
 function modalRef(openModal) {
-    window.addEventListener('keydown', event => {
-        if (event.code === 'Escape') {
-            closeModalRef();
-        };
-    });
+    window.addEventListener('keydown', onKeyDown);
     refs.modal.classList.add('is-open');
-    const largeImg = openModal.dataset.source;
-    refs.largeImage.src = largeImg
+    setImage(openModal.dataset.source, openModal.dataset.alt);
 }
 
 function closeModalRef() {
+    window.removeEventListener('keydown', onKeyDown);
     refs.modal.classList.remove('is-open');
-    refs.largeImage.src = '';
+    setImage();
 }
+
 
 
 
